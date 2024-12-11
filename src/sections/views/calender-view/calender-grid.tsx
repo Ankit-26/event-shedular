@@ -46,6 +46,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     const daysArray: dayjs.Dayjs[] = [];
     let day = startDate;
 
+    //creation of days are to used to create the grid and cell of calender
     while (!day.isAfter(endDate, "day")) {
       daysArray.push(day);
       day = day.add(1, "day");
@@ -56,6 +57,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   const rows = Math.ceil(days.length / 7);
 
   const handleCreateEvent = useCallback(
+    //handle creating a new event
     (date?: string) => {
       dispatch(setOpenCloseEventCreationModal(true));
 
@@ -69,6 +71,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   );
 
   const handleEditEvent = useCallback(
+    //handle updating a lod event
     (event: updateEventPayload) => {
       dispatch(setUpdatingEvent(event));
       dispatch(setOpenCloseEventCreationModal(true));
@@ -77,6 +80,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   );
 
   const handleSetMobileViewEventListData = useCallback(
+    //handle selection of a day in mobile view
     (data: EventListType) => {
       setMobileViewEventListData(data);
     },
@@ -87,7 +91,8 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     setMobileViewEventListData(null);
   }, [currentMonth]);
 
-  const renderDayEvents = useCallback(
+  //function to return a event of a day
+  const renderDayEvent = useCallback(
     (dayEvents: { id: string; description: string }[], dayKey: string) => {
       return dayEvents.map((event, idx) => (
         <div
@@ -112,6 +117,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     [handleEditEvent]
   );
 
+  //render the cells of day of amonth from days Array
   const renderDays = useCallback(() => {
     return days.map((day, index) => {
       const dayKey = day.format("YYYY-MM-DD");
@@ -148,7 +154,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                 rows === 6 ? "h-[3.5em]" : "h-[4.5em]"
               } overflow-y-auto`}
             >
-              {renderDayEvents(dayEvents, dayKey)}
+              {renderDayEvent(dayEvents, dayKey)}
             </div>
           )}
         </div>
@@ -161,7 +167,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
     handleCreateEvent,
     handleSetMobileViewEventListData,
     isMobile,
-    renderDayEvents,
+    renderDayEvent,
     rows,
   ]);
 
@@ -201,6 +207,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           )}
         </div>
       )}
+
       {isMobile && (
         <Button
           variant={"primary-blue"}
@@ -217,6 +224,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
 };
 export default CalendarGrid;
 
+// days of week/header of a month calender
 const CalenderHeader = memo(() => (
   <div className="grid grid-cols-7 border-b border-gray-300">
     {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (

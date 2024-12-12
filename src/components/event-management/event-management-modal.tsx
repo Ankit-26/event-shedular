@@ -73,11 +73,10 @@ const AddUpdateEventModal = ({ openModal }: { openModal: boolean }) => {
     if (selectedAddEventDate) {
       form.setValue("date", dayjs(selectedAddEventDate).toDate());
     }
-  }, [updatingEvent, form, selectedAddEventDate]);
+  }, [updatingEvent, selectedAddEventDate]);
 
   const onSubmit = useCallback(
     (data: EventForm) => {
-      console.log("Event Data:", data);
       if (updatingEvent) {
         dispatch(
           updateEvent({
